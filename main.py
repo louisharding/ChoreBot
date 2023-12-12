@@ -11,16 +11,31 @@ I will  have to work out:
     A time library which i can use modulus logic with the set of Louis>Darcy>Tom>Connor to cycle through, given a
     seed date. This means given a start date, the mod will extrapolate all future housemate's chore days
 """
-from datetime import date, timedelta
+from datetime import date
+import os
+import discord
+from dotenv import load_dotenv
 
-blokelist = ["Louis'", "Darcy's", "Tom's", "Connor's"]
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
+
+client = discord.Client(intents=discord.Intents.default())
+
+
+@client.event
+async def on_ready():
+    print(f'{client.user} has connected to discord')
+
+
+client.run(TOKEN)
+
+blokeList = ["Louis'", "Darcy's", "Tom's", "Connor's"]
 today = date.today()
-#6th of december 2023 = Louis' day, this will be the seed date, used to
+# 6th of december 2023 = Louis' day, this will be the seed date, used to
 seedDate = date(2023, 12, 6)
-
 
 daysDifference = today - seedDate
 
 blokeIndex = daysDifference.days % 4
-print('Difference between ', today,  '(today) and', seedDate, '(seed date) is', daysDifference.days, 'days' )
-print('Today is', blokelist[blokeIndex],'day')
+print('Difference between ', today, '(today) and', seedDate, '(seed date) is', daysDifference.days, 'days')
+print('Today is', blokeList[blokeIndex], 'day')
