@@ -18,24 +18,30 @@ from dotenv import load_dotenv
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+GUILD = os.getenv('DISCORD_GUILD')
 
 client = discord.Client(intents=discord.Intents.default())
 
-
 @client.event
 async def on_ready():
-    print(f'{client.user} has connected to discordd')
+  guild = discord.utils.find(
+      lambda g: g.name == GUILD, client.guilds)
 
-
+  print(
+        f'{client.user} is connected to the following guild: \n'
+        f'{guild.name}(id: {guild.id})'
+  )
 client.run(TOKEN)
 
+
+#---
 blokeList = ["Louis'", "Darcy's", "Tom's", "Connor's"]
 today = date.today()
-# 6th of december 2023 = Louis' day, this will be the seed date, used to
+# 6th of december 2023 = Louis' day, this will be the seed date, used to orient the
 seedDate = date(2023, 12, 6)
 
 daysDifference = today - seedDate
 
 blokeIndex = daysDifference.days % 4
-print('Difference between ', today, '(today) and', seedDate, '(seed date) is', daysDifference.days, 'days')
-print('Today is', blokeList[blokeIndex], 'day')
+print(f'Difference between {today} (today) and {seedDate} (seed date) is {daysDifference} days')
+print(f'Today is {blokeIndex[blokeIndex]} day')
