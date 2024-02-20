@@ -11,6 +11,7 @@ I will  have to work out:
     A time library which i can use modulus logic with the set of Louis>Darcy>Tom>Connor to cycle through, given a
     seed date. This means given a start date, the mod will extrapolate all future housemate's chore days
 """
+
 from datetime import date
 import os
 import discord
@@ -22,6 +23,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 client = discord.Client(intents=discord.Intents.default())
 
+"""
 @client.event
 async def on_ready():
   guild = discord.utils.get(client.guilds, name=GUILD)
@@ -31,11 +33,19 @@ async def on_ready():
         f'{guild.name} (id: {guild.id})'
   )
 
-class CustomClient(discord.Client):
-    async def on_ready(self):
-        print(f'{self.user} Has connected to discord')
+"""
 
-client = CustomClient()
+@client.event
+async def on_ready():
+    print(f'{client.user.name} Has connected to discord')
+
+@client.event
+async def on_member_join(member):
+    await member.create_dm()
+    await member.dm_channel.send(
+        f'Hi {member.name}, welcome to me discord server!'
+    )
+
 client.run(TOKEN)
 
 
