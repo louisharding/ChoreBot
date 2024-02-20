@@ -24,24 +24,31 @@ client = discord.Client(intents=discord.Intents.default())
 
 @client.event
 async def on_ready():
-  guild = discord.utils.find(
-      lambda g: g.name == GUILD, client.guilds)
+  guild = discord.utils.get(client.guilds, name=GUILD)
 
   print(
         f'{client.user} is connected to the following guild: \n'
-        f'{guild.name}(id: {guild.id})'
+        f'{guild.name} (id: {guild.id})'
   )
+
+class CustomClient(discord.Client):
+    async def on_ready(self):
+        print(f'{self.user} Has connected to discord')
+
+client = CustomClient()
 client.run(TOKEN)
 
 
 #---
-blokeList = ["Louis'", "Darcy's", "Tom's", "Connor's"]
-today = date.today()
-# 6th of december 2023 = Louis' day, this will be the seed date, used to orient the
-seedDate = date(2023, 12, 6)
+async def returnChoreInfo():
+    blokeList = ["Louis'", "Darcy's", "Tom's", "Connor's"]
+    today = date.today()
+    # 6th of december 2023 = Louis' day, this will be the seed date, used to orient the
+    seedDate = date(2023, 12, 6)
 
-daysDifference = today - seedDate
+    daysDifference = today - seedDate
 
-blokeIndex = daysDifference.days % 4
-print(f'Difference between {today} (today) and {seedDate} (seed date) is {daysDifference} days')
-print(f'Today is {blokeIndex[blokeIndex]} day')
+    blokeIndex = daysDifference.days % 4
+    print(f'Difference between {today} (today) and {seedDate} (seed date) is {daysDifference} days')
+    print(f'Today is {blokeList[blokeIndex]} day')
+returnChoreInfo()
