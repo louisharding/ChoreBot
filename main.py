@@ -11,7 +11,7 @@ I will  have to work out:
     A time library which i can use modulus logic with the set of Louis>Darcy>Tom>Connor to cycle through, given a
     seed date. This means given a start date, the mod will extrapolate all future housemate's chore days
 """
-
+import random
 from datetime import date
 import os
 import discord
@@ -21,44 +21,36 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-client = discord.Client(intents=discord.Intents.default())
+intents = discord.Intents.all()
+client = discord.Client(intents=intents)
 
-"""
-@client.event
-async def on_ready():
-  guild = discord.utils.get(client.guilds, name=GUILD)
-
-  print(
-        f'{client.user} is connected to the following guild: \n'
-        f'{guild.name} (id: {guild.id})'
-  )
-
-"""
 
 @client.event
-async def on_ready():
-    print(f'{client.user.name} Has connected to discord')
+async def on_message(message):
+    if message.author == client.user:
+        return
 
-@client.event
-async def on_member_join(member):
-    await member.create_dm()
-    await member.dm_channel.send(
-        f'Hi {member.name}, welcome to me discord server!'
-    )
+    brooklyn_99_quotes = [
+        'A fat horse cock',
+        'a buttery horse cock!',
+        'a creamy horse cock'
+    ]
+
+    if message.content == 'obamna':
+        response = random.choice(brooklyn_99_quotes)
+        await message.channel.send(response)
+
 
 client.run(TOKEN)
-
-
-#---
-async def returnChoreInfo():
-    blokeList = ["Louis'", "Darcy's", "Tom's", "Connor's"]
+def returnChoreInfo():
+    blokeList = ["Connor's", "Tom's", "Darcy's", "Louis'"]
     today = date.today()
     # 6th of december 2023 = Louis' day, this will be the seed date, used to orient the
     seedDate = date(2023, 12, 6)
-
     daysDifference = today - seedDate
-
     blokeIndex = daysDifference.days % 4
     print(f'Difference between {today} (today) and {seedDate} (seed date) is {daysDifference} days')
     print(f'Today is {blokeList[blokeIndex]} day')
-returnChoreInfo()
+
+
+
